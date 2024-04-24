@@ -59,11 +59,11 @@ metadata:
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: openshift-gitops
+    namespace: ml-demo
     server: https://kubernetes.default.svc
   project: flyingthings-config
   source:
-    path: components/ml-demo/overlays/default
+    path: components/ml-demo
     repoURL: https://github.com/gfulton-redhat/flyingthings
     targetRevision: HEAD
   syncPolicy:
@@ -78,7 +78,7 @@ metadata:
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: openshift-gitops
+    namespace: ml-demo
     server: https://kubernetes.default.svc
   project: flyingthings-config
   source:
@@ -97,7 +97,7 @@ metadata:
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: openshift-gitops
+    namespace: ml-demo
     server: https://kubernetes.default.svc
   project: flyingthings-config
   source:
@@ -116,7 +116,7 @@ metadata:
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: openshift-gitops
+    namespace: ml-demo
     server: https://kubernetes.default.svc
   project: flyingthings-config
   source:
@@ -135,7 +135,7 @@ metadata:
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: openshift-gitops
+    namespace: ml-demo
     server: https://kubernetes.default.svc
   project: flyingthings-config
   source:
