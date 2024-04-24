@@ -44,7 +44,7 @@ spec:
     server: https://kubernetes.default.svc
   project: flyingthings-config
   source:
-    path: components/common
+    path: components/common/overlays/default
     repoURL: https://github.com/gfulton-redhat/flyingthings
     targetRevision: HEAD
   syncPolicy:
