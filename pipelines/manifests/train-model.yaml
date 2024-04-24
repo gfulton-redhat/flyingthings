@@ -100,7 +100,7 @@ spec:
         - name: SCRIPT
           value: |
             pwd
-            tree
+            ls -R
             source $(workspaces.source.path)/pipelines/scripts/functions.sh && \
             check_base_image $(params.MODEL_IMAGE)
             check_base_image $(params.UBI_IMAGE)
