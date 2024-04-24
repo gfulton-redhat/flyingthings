@@ -184,7 +184,7 @@ spec:
         - name: SCRIPT
           value: |
             cd $(workspaces.source.path)
-
+            tree
             source $(workspaces.source.path)/pipelines/scripts/functions.sh && \
             cd_to_scratch && \
             resize_images datasets/images $(params.MAX_WIDTH)
