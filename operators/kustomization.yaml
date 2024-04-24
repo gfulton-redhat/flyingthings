@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
   - operators
-  - 02-components
+  - operators-configs
 
 
 

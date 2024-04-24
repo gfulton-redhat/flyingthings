@@ -4,8 +4,10 @@ kind: Kustomization
 namespace: ml-demo
 
 resources:
-  - ../../components/label-studio/overlays/flyingthings
-  - ../../components/minio
-  - ../../components/yolo-api/base
   - link-github.yaml
   - namespace.yaml
+
+
+  - label-studio/overlays/flyingthings
+  - components/minio
+  - components/yolo-api/base
