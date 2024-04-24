@@ -99,6 +99,8 @@ spec:
       params:
         - name: SCRIPT
           value: |
+            pwd
+            tree
             source $(workspaces.source.path)/pipelines/scripts/functions.sh && \
             check_base_image $(params.MODEL_IMAGE)
             check_base_image $(params.UBI_IMAGE)
@@ -184,7 +186,7 @@ spec:
         - name: SCRIPT
           value: |
             cd $(workspaces.source.path)
-            tree
+            
             source $(workspaces.source.path)/pipelines/scripts/functions.sh && \
             cd_to_scratch && \
             resize_images datasets/images $(params.MAX_WIDTH)
