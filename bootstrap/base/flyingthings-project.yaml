@@ -14,3 +14,117 @@ spec:
   sourceRepos:
     - '*'
 ---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: flyingthings-operators-apps
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: flyingthings-config
+  source:
+    path: operators
+    repoURL: https://github.com/gfulton-redhat/flyingthings
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: flyingthings-common-apps
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: flyingthings-config
+  source:
+    path: components/common
+    repoURL: https://github.com/gfulton-redhat/flyingthings
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: flyingthings-label-studio-apps
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: flyingthings-config
+  source:
+    path: components/label-studio/overlays/flyingthings
+    repoURL: https://github.com/gfulton-redhat/flyingthings
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: flyingthings-minio-apps
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: flyingthings-config
+  source:
+    path: components/minio
+    repoURL: https://github.com/gfulton-redhat/flyingthings
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: flyingthings-yolo-api-apps
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: flyingthings-config
+  source:
+    path: components/yolo-api/base
+    repoURL: https://github.com/gfulton-redhat/flyingthings
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: flyingthings-notebooks-apps
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: flyingthings-config
+  source:
+    path: components/notebooks/overlays/default
+    repoURL: https://github.com/gfulton-redhat/flyingthings
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
