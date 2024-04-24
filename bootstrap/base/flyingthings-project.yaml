@@ -17,7 +17,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: flyingthings-operators-apps
+  name: flyingthings-operators-app
   namespace: openshift-gitops
 spec:
   destination:
@@ -36,7 +36,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: flyingthings-common-apps
+  name: flyingthings-common-app
   namespace: openshift-gitops
 spec:
   destination:
@@ -55,7 +55,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: flyingthings-label-studio-apps
+  name: flyingthings-label-studio-app
   namespace: openshift-gitops
 spec:
   destination:
@@ -74,7 +74,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: flyingthings-minio-apps
+  name: flyingthings-minio-app
   namespace: openshift-gitops
 spec:
   destination:
@@ -93,7 +93,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: flyingthings-yolo-api-apps
+  name: flyingthings-yolo-api-app
   namespace: openshift-gitops
 spec:
   destination:
@@ -112,7 +112,7 @@ spec:
 #apiVersion: argoproj.io/v1alpha1
 #kind: Application
 #metadata:
-#  name: flyingthings-notebooks-apps
+#  name: flyingthings-notebooks-app
 #  namespace: openshift-gitops
 #spec:
 #  destination:
