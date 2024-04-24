@@ -4,6 +4,8 @@ kind: AppProject
 metadata:
   name: flyingthings-config
   namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/background
 spec:
   clusterResourceWhitelist:
     - group: '*'
@@ -21,6 +23,8 @@ kind: Application
 metadata:
   name: flyingthings-operators-app
   namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/background
 spec:
   destination:
     namespace: ml-demo
@@ -31,19 +35,20 @@ spec:
     repoURL: https://github.com/gfulton-redhat/flyingthings
     targetRevision: HEAD
   syncPolicy:
+    preserveResourcesOnDeletion: false
     syncOptions:
       - CreateNamespace=false
     automated:
       prune: true
       selfHeal: true
-
-
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: flyingthings-cluster-default-app
   namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/background
 spec:
   destination:
     namespace: ml-demo
@@ -54,6 +59,7 @@ spec:
     repoURL: https://github.com/gfulton-redhat/flyingthings
     targetRevision: HEAD
   syncPolicy:
+    preserveResourcesOnDeletion: false
     syncOptions:
       - CreateNamespace=false
     automated:
@@ -65,6 +71,8 @@ kind: Application
 metadata:
   name: flyingthings-ml-demo-app
   namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/background
 spec:
   destination:
     namespace: ml-demo
@@ -75,6 +83,7 @@ spec:
     repoURL: https://github.com/gfulton-redhat/flyingthings
     targetRevision: HEAD
   syncPolicy:
+    preserveResourcesOnDeletion: false
     syncOptions:
       - CreateNamespace=true
     automated:
@@ -86,6 +95,8 @@ kind: Application
 metadata:
   name: flyingthings-label-studio-app
   namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/background
 spec:
   destination:
     namespace: ml-demo
@@ -96,6 +107,7 @@ spec:
     repoURL: https://github.com/gfulton-redhat/flyingthings
     targetRevision: HEAD
   syncPolicy:
+    preserveResourcesOnDeletion: false
     syncOptions:
       - CreateNamespace=true
     automated:
@@ -107,6 +119,8 @@ kind: Application
 metadata:
   name: flyingthings-minio-app
   namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/background
 spec:
   destination:
     namespace: ml-demo
@@ -117,6 +131,7 @@ spec:
     repoURL: https://github.com/gfulton-redhat/flyingthings
     targetRevision: HEAD
   syncPolicy:
+    preserveResourcesOnDeletion: false
     syncOptions:
       - CreateNamespace=true
     automated:
@@ -128,6 +143,8 @@ kind: Application
 metadata:
   name: flyingthings-yolo-api-app
   namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/background
 spec:
   destination:
     namespace: ml-demo
@@ -138,6 +155,7 @@ spec:
     repoURL: https://github.com/gfulton-redhat/flyingthings
     targetRevision: HEAD
   syncPolicy:
+    preserveResourcesOnDeletion: false
     syncOptions:
       - CreateNamespace=true
     automated:
@@ -149,6 +167,8 @@ kind: Application
 metadata:
   name: flyingthings-pipelines-app
   namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/background
 spec:
   destination:
     namespace: ml-demo
@@ -159,6 +179,7 @@ spec:
     repoURL: https://github.com/gfulton-redhat/flyingthings
     targetRevision: HEAD
   syncPolicy:
+    preserveResourcesOnDeletion: false
     syncOptions:
       - CreateNamespace=true
     automated:
