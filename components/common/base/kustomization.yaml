@@ -4,10 +4,6 @@ kind: Kustomization
 namespace: ml-demo
 
 resources:
+  - https://github.com/codekow/demo-ai-gitops-catalog/clusters/default?ref=v0.03
   - link-github.yaml
-  - namespace.yaml
 
-
-  - label-studio/overlays/flyingthings
-  - components/minio
-  - components/yolo-api/base

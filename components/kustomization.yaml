@@ -7,5 +7,4 @@ resources:
   - label-studio/overlays/flyingthings
   - components/minio
   - components/yolo-api/base
-  - link-github.yaml
-  - namespace.yaml
+  - common/overlays/flyingthings
