@@ -6,4 +6,3 @@ namespace: ml-demo
 resources:
   - https://github.com/codekow/demo-ai-gitops-catalog/clusters/default?ref=v0.03
   - link-github.yaml
-
