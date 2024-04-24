@@ -36,6 +36,25 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  name: flyingthings-cluster-default-app
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: flyingthings-config
+  source:
+    path: cluster-default
+    repoURL: https://github.com/gfulton-redhat/flyingthings
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
   name: flyingthings-ml-demo-app
   namespace: openshift-gitops
 spec:
