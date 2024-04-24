@@ -48,7 +48,7 @@ spec:
     server: https://kubernetes.default.svc
   project: flyingthings-config
   source:
-    path: label-studio/overlays/flyingthings
+    path: label-studio/overlays/default
     repoURL: https://github.com/gfulton-redhat/flyingthings
     targetRevision: HEAD
   syncPolicy:
