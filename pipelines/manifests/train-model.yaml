@@ -5,7 +5,7 @@ metadata:
 spec:
   params:
     - name: GIT_URL
-      default: https://github.com/redhat-na-ssa/flyingthings.git
+      default: https://github.com/gfulton-redhat/flyingthings.git
       description: url of the git repo for the code of deployment
     - name: GIT_REVISION
       default: main
