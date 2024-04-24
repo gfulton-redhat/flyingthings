@@ -36,7 +36,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: flyingthings-common-app
+  name: flyingthings-ml-demo-app
   namespace: openshift-gitops
 spec:
   destination:
