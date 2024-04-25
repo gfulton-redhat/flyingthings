@@ -99,7 +99,7 @@ spec:
       params:
         - name: SCRIPT
           value: |
-            echo $(workspaces.source.path)
+            echo $(workspaces.source.path) 
             source $(workspaces.source.path)/pipelines/scripts/functions.sh && \
             check_base_image $(params.MODEL_IMAGE)
             check_base_image $(params.UBI_IMAGE)
