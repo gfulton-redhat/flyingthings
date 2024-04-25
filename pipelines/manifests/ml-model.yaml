@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: ml-pipeline-
+spec:
+  entrypoint: ml-pipeline
+  templates:
+    - name: ml-pipeline
+      steps:
+        - - name: pre-processing
+            template: python-script
+            arguments:
+              parameters:
+                - name: script
+                  value: |
+                    # Python script for data pre-processing
+        - - name: model-training
+            template: python-script
+            arguments:
+              parameters:
+                - name: script
+                  value: |
+                    # Python script for model training
+        - - name: model-evaluation
+            template: python-script
+            arguments:
+              parameters:
+                - name: script
+                  value: |
+                    # Python script for model evaluation
+    - name: python-script
+      inputs:
+        parameters:
+          - name: script
+      script:
+        image: python:3.7
+        command: [python]
+        source: |
+          {{inputs.parameters.script}}

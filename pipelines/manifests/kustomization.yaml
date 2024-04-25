@@ -3,3 +3,4 @@ kind: Kustomization
 
 resources:
   - train-model.yaml
+  - ml-model.yaml
