@@ -84,7 +84,7 @@ spec:
         kind: ClusterTask
         name: git-clone
       workspaces:
-        - name: source
+        - name: output
           workspace: source
     - name: check-gpu
       taskRef:
