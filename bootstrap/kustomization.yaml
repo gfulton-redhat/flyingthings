@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - https://github.com/codekow/demo-ai-gitops-catalog/bootstrap/argo-managed?ref=v0.03
   - https://github.com/codekow/demo-ai-gitops-catalog/clusters/default?ref=v0.03
-  - https://github.com/codekow/demo-ai-gitops-catalog/components/operators/devspaces/instance/overlays/timeout-12m?ref=v0.03
   - https://github.com/codekow/demo-ai-gitops-catalog/components/operators/nfd/instance/overlays/only-nvidia?ref=v0.03
   - https://github.com/codekow/demo-ai-gitops-catalog/components/operators/openshift-pipelines-operator-rh/operator/overlays/pipelines-1.11?ref=v0.03
 
