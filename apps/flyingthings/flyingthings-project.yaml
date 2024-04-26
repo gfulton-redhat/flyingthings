@@ -1,8 +1,8 @@
 ---
-apiVersion: argoproj.io/v1beta1
+apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: flyingthings-config
+  name: flyingthings-project
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io/background
