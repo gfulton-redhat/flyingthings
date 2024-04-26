@@ -1,13 +1,11 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: clone-read
+  name: train-model
 spec:
-  description: |
-    This pipeline clones a git repo, then echoes the README file to the stout.
   params:
     - name: GIT_URL
-      default: https://github.com/gfulton-redhat/flyingthings.git
+      default: https://github.com/redhat-na-ssa/flyingthings.git
       description: url of the git repo for the code of deployment
     - name: GIT_REVISION
       default: main
@@ -81,12 +79,12 @@ spec:
         - name: revision
           value: $(params.GIT_REVISION)
         - name: verbose
-          value: 'true'
+          value: 'false'
       taskRef:
         kind: ClusterTask
         name: git-clone
       workspaces:
-        - name: source
+        - name: output
           workspace: source
     - name: check-gpu
       taskRef:
@@ -101,7 +99,6 @@ spec:
       params:
         - name: SCRIPT
           value: |
-            echo $(workspaces.source.path) 
             source $(workspaces.source.path)/pipelines/scripts/functions.sh && \
             check_base_image $(params.MODEL_IMAGE)
             check_base_image $(params.UBI_IMAGE)
@@ -187,7 +184,7 @@ spec:
         - name: SCRIPT
           value: |
             cd $(workspaces.source.path)
-            
+
             source $(workspaces.source.path)/pipelines/scripts/functions.sh && \
             cd_to_scratch && \
             resize_images datasets/images $(params.MAX_WIDTH)
@@ -314,43 +311,43 @@ spec:
       runAfter:
         - push-results
       params:
-      - name: IMAGE
-        value: image-registry.openshift-image-registry.svc:5000/openshift/cli:latest
-      - name: SCRIPT
-        value: |
-          set -x
-
-          oc new-app $(params.MODEL_IMAGE) \
-            --name=$(params.MODEL_NAME) \
-            --env=WEIGHTS=model_custom.pt \
-            --env=MINIO_ENDPOINT=$(params.MINIO_ENDPOINT) \
-            --env=MINIO_BUCKET=$(params.MINIO_BUCKET) \
-            --env=MINIO_ACCESSKEY=$(params.MINIO_ACCESSKEY) \
-            --env=MINIO_SECRETKEY=$(params.MINIO_SECRETKEY)
-
-          oc apply -f - <<EOF
-          apiVersion: route.openshift.io/v1
-          kind: Route
-          metadata:
-            name: $(params.MODEL_NAME)
-            labels:
-              app: $(params.MODEL_NAME)
-              app.kubernetes.io/component: $(params.MODEL_NAME)
-              app.kubernetes.io/instance: $(params.MODEL_NAME)
-          annotations:
-            openshift.io/host.generated: "true"
-          spec:
-            to:
-              kind: Service
+        - name: IMAGE
+          value: image-registry.openshift-image-registry.svc:5000/openshift/cli:latest
+        - name: SCRIPT
+          value: |
+            set -x
+            
+            oc new-app $(params.MODEL_IMAGE) \
+              --name=$(params.MODEL_NAME) \
+              --env=WEIGHTS=model_custom.pt \
+              --env=MINIO_ENDPOINT=$(params.MINIO_ENDPOINT) \
+              --env=MINIO_BUCKET=$(params.MINIO_BUCKET) \
+              --env=MINIO_ACCESSKEY=$(params.MINIO_ACCESSKEY) \
+              --env=MINIO_SECRETKEY=$(params.MINIO_SECRETKEY)
+            
+            oc apply -f - <<EOF
+            apiVersion: route.openshift.io/v1
+            kind: Route
+            metadata:
               name: $(params.MODEL_NAME)
-              weight: 100
-            port:
-              targetPort: 8080-tcp
-            tls:
-              termination: edge
-              insecureEdgeTerminationPolicy: Allow
-          EOF
-          exit 0
+              labels:
+                app: $(params.MODEL_NAME)
+                app.kubernetes.io/component: $(params.MODEL_NAME)
+                app.kubernetes.io/instance: $(params.MODEL_NAME)
+            annotations:
+              openshift.io/host.generated: "true"
+            spec:
+              to:
+                kind: Service
+                name: $(params.MODEL_NAME)
+                weight: 100
+              port:
+                targetPort: 8080-tcp
+              tls:
+                termination: edge
+                insecureEdgeTerminationPolicy: Allow
+            EOF
+            exit 0
   finally:
     - name: summary
       taskSpec:
