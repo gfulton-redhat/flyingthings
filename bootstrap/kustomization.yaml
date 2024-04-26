@@ -3,8 +3,7 @@ kind: Kustomization
 
 resources:
   - https://github.com/codekow/demo-ai-gitops-catalog/bootstrap/argo-managed?ref=v0.03
-  - https://github.com/codekow/demo-ai-gitops-catalog/clusters/default?ref=v0.03
-  - https://github.com/argoproj/argo-workflows/manifests/cluster-install?ref=v3.5.6
+  - https://github.com/codekow/demo-ai-gitops-catalog/components/operators/openshift-pipelines-operator-rh/operator/overlays/latest?ref=v0.03
 
 patches:
   - target:
