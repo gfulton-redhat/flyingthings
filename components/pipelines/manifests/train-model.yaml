@@ -105,7 +105,7 @@ spec:
       runAfter:
         - fetch-repository
       workspaces:
-        - name: source
+        - name: output
           workspace: source
     - name: copy-artifacts
       when:
@@ -129,7 +129,7 @@ spec:
       runAfter:
         - check-base-image
       workspaces:
-        - name: source
+        - name: output
           workspace: source
     - name: get-dataset
       taskRef:
@@ -153,7 +153,7 @@ spec:
       runAfter:
         - copy-artifacts
       workspaces:
-        - name: source
+        - name: output
           workspace: source
     - name: create-classfile
       taskRef:
@@ -192,7 +192,7 @@ spec:
       runAfter:
         - create-classfile
       workspaces:
-        - name: source
+        - name: output
           workspace: source
     - name: distribute-dataset
       taskRef:
@@ -210,7 +210,7 @@ spec:
       runAfter:
         - resize-images
       workspaces:
-        - name: source
+        - name: output
           workspace: source
     - name: train-model-gpu
       when:
@@ -233,7 +233,7 @@ spec:
         - check-gpu
         - distribute-dataset
       workspaces:
-        - name: source
+        - name: output
           workspace: source
     - name: train-model-cpu
       when:
@@ -296,7 +296,7 @@ spec:
         - train-model-cpu
         - train-model-gpu
       workspaces:
-        - name: source
+        - name: output
           workspace: source
     - name: deploy-model-x
       when:
@@ -306,7 +306,7 @@ spec:
       taskRef:
         name: shell-script
       workspaces:
-        - name: source
+        - name: output
           workspace: source
       runAfter:
         - push-results
