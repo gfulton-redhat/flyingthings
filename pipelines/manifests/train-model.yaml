@@ -69,11 +69,6 @@ spec:
     - name: MODEL_NAME
       default: model-custom
       description: name used to deploy the model and model server
-  workspaces:
-    - name: shared-data
-      description: |
-        This workspace contains the cloned repo files, so they can be read by the
-        next task.
   tasks:
     - name: fetch-repository
       params:

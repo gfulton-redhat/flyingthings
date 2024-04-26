@@ -1,39 +1,33 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: ml-pipeline-
+  name: ml-model
 spec:
-  entrypoint: ml-pipeline
+  entrypoint: source-checkout
   templates:
-    - name: ml-pipeline
-      steps:
-        - - name: pre-processing
-            template: python-script
-            arguments:
-              parameters:
-                - name: script
-                  value: |
-                    # Python script for data pre-processing
-        - - name: model-training
-            template: python-script
-            arguments:
-              parameters:
-                - name: script
-                  value: |
-                    # Python script for model training
-        - - name: model-evaluation
-            template: python-script
-            arguments:
-              parameters:
-                - name: script
-                  value: |
-                    # Python script for model evaluation
-    - name: python-script
+  - name: source-checkout
+    steps:
+    - - name: git-clone
+        template: git-clone
+        arguments:
+          parameters:
+            - name: GIT_URL
+              value: https://github.com/gfulton-redhat/flyingthings.git
+            - name: GIT_REVISION
+              value: main
+#    - name: git-clone
+#      script:
+#        image: quay.io/openshift-pipeline/openshift-pipelines-git-init:5.0
+#        command: [bash]
+#        source: |                                         # Contents of the here-script
+#          git clone -b {{inputs.parameters.GIT_REVISION}} {{inputs.parameters.GIT_URL}}
+    - name: git-clone
       inputs:
         parameters:
-          - name: script
+          - name: GIT_URL
+          - name: GIT_REVISION
       script:
-        image: python:3.7
-        command: [python]
-        source: |
-          {{inputs.parameters.script}}
+        image: quay.io/openshift-pipeline/openshift-pipelines-git-init:5.0
+        command: [bash]
+        source: |                                         # Contents of the here-script
+          git clone -b {{inputs.parameters.GIT_REVISION}} {{inputs.parameters.GIT_URL}}
