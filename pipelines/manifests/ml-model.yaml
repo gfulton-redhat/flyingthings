@@ -6,28 +6,21 @@ spec:
   entrypoint: source-checkout
   templates:
   - name: source-checkout
-    steps:
-    - - name: git-clone
-        template: git-clone
+    inputs:
+      artifacts:
+      # Check out the main branch of the argo repo and place it at /src
+      # revision can be anything that git checkout accepts: branch, commit, tag, etc.
+      - name: argo-source
+        path: /src
+        git:
+          repo: https://github.com/gfulton-redhat/flyingthings.git
+          revision: "main"
+      - name: print
         arguments:
           parameters:
-            - name: GIT_URL
-              value: https://github.com/gfulton-redhat/flyingthings.git
-            - name: GIT_REVISION
-              value: main
-#    - name: git-clone
-#      script:
-#        image: quay.io/openshift-pipeline/openshift-pipelines-git-init:5.0
-#        command: [bash]
-#        source: |                                         # Contents of the here-script
-#          git clone -b {{inputs.parameters.GIT_REVISION}} {{inputs.parameters.GIT_URL}}
-    - name: git-clone
-      inputs:
-        parameters:
-          - name: GIT_URL
-          - name: GIT_REVISION
-      script:
-        image: quay.io/openshift-pipeline/openshift-pipelines-git-init:5.0
-        command: [bash]
-        source: |                                         # Contents of the here-script
-          git clone -b {{inputs.parameters.GIT_REVISION}} {{inputs.parameters.GIT_URL}}
+            - name: message
+                value: "{{steps.generate.outputs.result}}"  # The result of the here-script
+      container:
+        image:  ubi9:latest
+        command: [sh, -c]
+        args: ["echo result was: {{inputs.parameters.message}}"]
