@@ -6,7 +6,6 @@ resources:
   - https://github.com/codekow/demo-ai-gitops-catalog/clusters/default?ref=v0.03
   - https://github.com/codekow/demo-ai-gitops-catalog/components/operators/nfd/operator/overlays/stable?ref=v0.03
   - https://github.com/codekow/demo-ai-gitops-catalog/components/operators/devspaces/operator/overlays/stable?ref=v0.03
-  - https://github.com/codekow/demo-ai-gitops-catalog/components/operators/web-terminal/operator/overlays/fast?ref=v0.03
 
 patches:
   - target:
