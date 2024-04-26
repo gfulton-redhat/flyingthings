@@ -10,7 +10,7 @@ spec:
   destination:
     namespace: ml-demo
     server: https://kubernetes.default.svc
-  project: flyingthings-config
+  project: flyingthings-project
   source:
     path: components/pipelines
     repoURL: https://github.com/gfulton-redhat/flyingthings
