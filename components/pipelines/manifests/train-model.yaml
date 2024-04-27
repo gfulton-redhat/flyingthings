@@ -95,20 +95,20 @@ spec:
 #      params:
 #        - name: TIMEOUT
 #          value: $(params.GPU_TIMEOUT)
-#    - name: check-base-image
-#      taskRef:
-#        name: shell-script
-#      params:
-#        - name: SCRIPT
-#          value: |
-#            source $(workspaces.source.path)/pipelines/scripts/functions.sh && \
-#            check_base_image $(params.MODEL_IMAGE)
-#            check_base_image $(params.UBI_IMAGE)
-#      runAfter:
-#        - fetch-repository
-#      workspaces:
-#        - name: source
-#          workspace: source
+    - name: check-base-image
+      taskRef:
+        name: shell-script
+      params:
+        - name: SCRIPT
+          value: |
+            source $(workspaces.source.path)/pipelines/scripts/functions.sh && \
+            check_base_image $(params.MODEL_IMAGE)
+            check_base_image $(params.UBI_IMAGE)
+      runAfter:
+        - fetch-repository
+      workspaces:
+        - name: source
+          workspace: source
 #    - name: copy-artifacts
 #      when:
 #        - input: "$(params.DEPLOY_ARTIFACTS)"
