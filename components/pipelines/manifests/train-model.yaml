@@ -4,7 +4,7 @@ metadata:
   name: train-model
 spec:
   workspaces:
-    - name: source
+    - name: shared-data
   params:
     - name: GIT_URL
       default: https://github.com/gfulton-redhat/flyingthings.git
@@ -87,7 +87,30 @@ spec:
         name: git-clone
       workspaces:
         - name: output
-          workspace: source
+          workspace: shared-data
+    - name: show-readme
+      runAfter: ["fetch-source"]
+      taskRef:
+        name: show-readme
+      workspaces:
+        - name: source
+          workspace: shared-data
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: show-readme
+spec:
+  description: Read and display README file.
+  workspaces:
+    - name: source
+  steps:
+    - name: read
+      image: alpine:latest
+      script: |
+        #!/usr/bin/env sh
+        cat $(workspaces.source.path)/README.md
+---
 #    - name: check-gpu
 #      taskRef:
 #        kind: Task
@@ -95,20 +118,20 @@ spec:
 #      params:
 #        - name: TIMEOUT
 #          value: $(params.GPU_TIMEOUT)
-    - name: check-base-image
-      taskRef:
-        name: shell-script
-      params:
-        - name: SCRIPT
-          value: |
-            source /output/pipelines/scripts/functions.sh && \
-            check_base_image $(params.MODEL_IMAGE)
-            check_base_image $(params.UBI_IMAGE)
-      runAfter:
-        - fetch-repository
-      workspaces:
-        - name: source
-          workspace: source
+#    - name: check-base-image
+#      taskRef:
+#        name: shell-script
+#      params:
+#        - name: SCRIPT
+#          value: |
+#            source $(workspaces.output.path)/pipelines/scripts/functions.sh && \
+#            check_base_image $(params.MODEL_IMAGE)
+#            check_base_image $(params.UBI_IMAGE)
+#      runAfter:
+#        - fetch-repository
+#    workspaces:
+#      - name: source
+#        workspace: shared-data
 #    - name: copy-artifacts
 #      when:
 #        - input: "$(params.DEPLOY_ARTIFACTS)"
