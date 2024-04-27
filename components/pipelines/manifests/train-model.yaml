@@ -107,7 +107,7 @@ spec:
       runAfter:
         - fetch-repository
       workspaces:
-        - name: source
+        - name: output
           workspace: source
 #    - name: copy-artifacts
 #      when:
