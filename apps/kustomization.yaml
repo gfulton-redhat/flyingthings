@@ -2,7 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - flyingthings-project.yaml
   - flyingthings-pipelines-app.yaml
   - flyingthings-yolo-api-app.yaml
   - flyingthings-ml-demo-app.yaml
