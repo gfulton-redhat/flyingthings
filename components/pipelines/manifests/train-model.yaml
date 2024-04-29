@@ -70,7 +70,7 @@ spec:
       default: model-custom
       description: name used to deploy the model and model server
   tasks:
-    - name: fetch-repository
+    - name: fetch-source
       params:
         - name: url
           value: $(params.GIT_URL)
