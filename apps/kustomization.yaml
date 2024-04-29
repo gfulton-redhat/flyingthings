@@ -7,4 +7,3 @@ resources:
   - flyingthings-ml-demo-app.yaml
   - flyingthings-minio-app.yaml
   - flyingthings-label-studio-app.yaml
-  - flyingthings-github-link.yaml
