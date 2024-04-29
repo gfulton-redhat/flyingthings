@@ -1,93 +1,31 @@
+---
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: train-model
+  name: clone-read
 spec:
+  description: |
+    This pipeline clones a git repo, then echoes the README file to the stout.
+  params:
+    - name: repo-url
+      type: string
+      description: The git repo URL to clone from.
+      default: https://github.com/gfulton-redhat/flyingthings.git
   workspaces:
     - name: shared-data
-  params:
-    - name: GIT_URL
-      default: https://github.com/gfulton-redhat/flyingthings.git
-      description: url of the git repo for the code of deployment
-    - name: GIT_REVISION
-      default: main
-      description: revision to be used from repo of the code for deployment
-    - name: GPU_TIMEOUT
-      default: 12m
-      description: autoscaling gpu nodes in aws usually takes 10 min
-    - name: NAMESPACE
-      default: ml-demo
-      description: namespace for the deployment
-    - name: BATCH_SIZE
-      description: batch size for training NOTE* for CPU use a value of 2
-      default: "-1"
-    - name: NUM_EPOCHS
-      description: number of epochs for training
-      default: "100"
-    - name: IMG_RESIZE
-      description: flag to resize the source images before training
-      default: "N"
-    - name: MAX_WIDTH
-      description: maximum width for images when resizing
-      default: "200"
-    - name: MODEL_WEIGHTS
-      description: target weights file name
-      default: flyingthings.pt
-    - name: MINIO_ENDPOINT
-      description: endpoint of minio api
-      default: http://minio:9000
-    - name: DATASET_ZIP
-      description: name of the dataset zip file for training
-      default: flyingthings-yolo.zip
-    - name: MINIO_BUCKET
-      description: bucket with training dataset and target of model artifacts
-      default: flyingthings
-    - name: MINIO_ACCESSKEY
-      description: access key for minio NOTE* use secrets for production
-      default: minioadmin
-    - name: MINIO_SECRETKEY
-      description: secret key for minio NOTE* use secrets for production
-      default: minioadmin
-    - name: IMAGE_REGISTRY
-      description: default image registry
-      default: image-registry.openshift-image-registry.svc:5000
-    - name: UBI_IMAGE
-      default: python-custom:latest
-      description: base image for notebook
-    - name: MODEL_BASE
-      description: base model used to begin training
-      default: yolov5s.pt
-    - name: MODEL_IMAGE
-      default: yolo-api:latest
-      description: model server image
-    - name: DEPLOY
-      default: 'Y'
-      description: flag for deploying model server along with model
-    - name: DEPLOY_ARTIFACTS
-      default: 'N'
-      description: flag for deploying artifacts to minio from git repo
-    - name: MODEL_NAME
-      default: model-custom
-      description: name used to deploy the model and model server
+      description: |
+        This workspace contains the cloned repo files, so they can be read by the
+        next task.
   tasks:
     - name: fetch-source
-      params:
-        - name: url
-          value: $(params.GIT_URL)
-        - name: subdirectory
-          value: ''
-        - name: deleteExisting
-          value: 'true'
-        - name: revision
-          value: $(params.GIT_REVISION)
-        - name: verbose
-          value: 'true'
       taskRef:
-        kind: ClusterTask
         name: git-clone
       workspaces:
         - name: output
           workspace: shared-data
+      params:
+        - name: url
+          value: $(params.repo-url)
     - name: show-readme
       runAfter: ["fetch-source"]
       taskRef:
@@ -96,21 +34,119 @@ spec:
         - name: source
           workspace: shared-data
 ---
-apiVersion: tekton.dev/v1beta1
-kind: Task
-metadata:
-  name: show-readme
-spec:
-  description: Read and display README file.
-  workspaces:
-    - name: source
-  steps:
-    - name: read
-      image: alpine:latest
-      script: |
-        #!/usr/bin/env sh
-        cat $(workspaces.source.path)/README.md
----
+#apiVersion: tekton.dev/v1beta1
+#kind: Pipeline
+#metadata:
+#  name: train-model
+#spec:
+#  workspaces:
+#    - name: shared-data
+#  params:
+#    - name: GIT_URL
+#      default: https://github.com/gfulton-redhat/flyingthings.git
+#      description: url of the git repo for the code of deployment
+#    - name: GIT_REVISION
+#      default: main
+#      description: revision to be used from repo of the code for deployment
+#    - name: GPU_TIMEOUT
+#      default: 12m
+#      description: autoscaling gpu nodes in aws usually takes 10 min
+#    - name: NAMESPACE
+#      default: ml-demo
+#      description: namespace for the deployment
+#    - name: BATCH_SIZE
+#      description: batch size for training NOTE* for CPU use a value of 2
+#      default: "-1"
+#    - name: NUM_EPOCHS
+#      description: number of epochs for training
+#      default: "100"
+#    - name: IMG_RESIZE
+#      description: flag to resize the source images before training
+#      default: "N"
+#    - name: MAX_WIDTH
+#      description: maximum width for images when resizing
+#      default: "200"
+#    - name: MODEL_WEIGHTS
+#      description: target weights file name
+#      default: flyingthings.pt
+#    - name: MINIO_ENDPOINT
+#      description: endpoint of minio api
+#      default: http://minio:9000
+#    - name: DATASET_ZIP
+#      description: name of the dataset zip file for training
+#      default: flyingthings-yolo.zip
+#    - name: MINIO_BUCKET
+#      description: bucket with training dataset and target of model artifacts
+#      default: flyingthings
+#    - name: MINIO_ACCESSKEY
+#      description: access key for minio NOTE* use secrets for production
+#      default: minioadmin
+#    - name: MINIO_SECRETKEY
+#      description: secret key for minio NOTE* use secrets for production
+#      default: minioadmin
+#    - name: IMAGE_REGISTRY
+#      description: default image registry
+#      default: image-registry.openshift-image-registry.svc:5000
+#    - name: UBI_IMAGE
+#      default: python-custom:latest
+#      description: base image for notebook
+#    - name: MODEL_BASE
+#      description: base model used to begin training
+#      default: yolov5s.pt
+#    - name: MODEL_IMAGE
+#      default: yolo-api:latest
+#      description: model server image
+#    - name: DEPLOY
+#      default: 'Y'
+#      description: flag for deploying model server along with model
+#    - name: DEPLOY_ARTIFACTS
+#      default: 'N'
+#      description: flag for deploying artifacts to minio from git repo
+#    - name: MODEL_NAME
+#      default: model-custom
+#      description: name used to deploy the model and model server
+#  tasks:
+#    - name: fetch-source
+#      params:
+#        - name: url
+#          value: $(params.GIT_URL)
+#        - name: subdirectory
+#          value: ''
+#        - name: deleteExisting
+#          value: 'true'
+#        - name: revision
+#          value: $(params.GIT_REVISION)
+#        - name: verbose
+#          value: 'true'
+#      taskRef:
+#        kind: ClusterTask
+#        name: git-clone
+#      workspaces:
+#        - name: output
+#          workspace: shared-data
+#    - name: show-readme
+#      runAfter: ["fetch-source"]
+#      taskRef:
+#        name: show-readme
+#      workspaces:
+#        - name: source
+#          workspace: shared-data
+#---
+#apiVersion: tekton.dev/v1beta1
+#kind: Task
+#metadata:
+#  name: show-readme
+#spec:
+#  description: Read and display README file.
+#  workspaces:
+#    - name: source
+#  steps:
+#    - name: read
+#      image: alpine:latest
+#      script: |
+#        #!/usr/bin/env sh
+#        cat $(workspaces.source.path)/README.md
+#---
 #    - name: check-gpu
 #      taskRef:
 #        kind: Task
