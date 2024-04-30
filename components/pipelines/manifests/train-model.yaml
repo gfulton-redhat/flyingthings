@@ -49,6 +49,7 @@ spec:
       script: |
         #!/usr/bin/env sh
         ls /workspace
+        ls /workspace/source
 ---
 #apiVersion: tekton.dev/v1beta1
 #kind: Pipeline
