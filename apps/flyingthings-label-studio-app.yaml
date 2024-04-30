@@ -14,7 +14,7 @@ spec:
   source:
     path: components/label-studio/overlays/flyingthings
     repoURL: https://github.com/gfulton-redhat/flyingthings
-    targetRevision: HEAD
+    targetRevision: main
   syncPolicy:
     preserveResourcesOnDeletion: false
     syncOptions:

@@ -14,7 +14,7 @@ spec:
   source:
     path: components/yolo-api/base
     repoURL: https://github.com/gfulton-redhat/flyingthings
-    targetRevision: HEAD
+    targetRevision: main
   syncPolicy:
     preserveResourcesOnDeletion: false
     syncOptions:

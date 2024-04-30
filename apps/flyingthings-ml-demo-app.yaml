@@ -14,7 +14,7 @@ spec:
   source:
     path: components/ml-demo
     repoURL: https://github.com/gfulton-redhat/flyingthings
-    targetRevision: HEAD
+    targetRevision: main
   syncPolicy:
     preserveResourcesOnDeletion: false
     syncOptions:
