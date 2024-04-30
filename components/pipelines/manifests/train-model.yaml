@@ -19,6 +19,7 @@ spec:
   tasks:
     - name: fetch-source
       taskRef:
+        kind: ClusterTask
         name: git-clone
       workspaces:
         - name: output
@@ -33,6 +34,21 @@ spec:
       workspaces:
         - name: source
           workspace: shared-data
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: show-readme
+spec:
+  description: Read and display README file.
+  workspaces:
+    - name: source
+  steps:
+    - name: read
+      image: alpine:latest
+      script: |
+        #!/usr/bin/env sh
+        cat $(workspaces.source.path)/README.md
 ---
 #apiVersion: tekton.dev/v1beta1
 #kind: Pipeline
@@ -131,21 +147,6 @@ spec:
 #      workspaces:
 #        - name: source
 #          workspace: shared-data
-#---
-#apiVersion: tekton.dev/v1beta1
-#kind: Task
-#metadata:
-#  name: show-readme
-#spec:
-#  description: Read and display README file.
-#  workspaces:
-#    - name: source
-#  steps:
-#    - name: read
-#      image: alpine:latest
-#      script: |
-#        #!/usr/bin/env sh
-#        cat $(workspaces.source.path)/README.md
 #---
 #    - name: check-gpu
 #      taskRef:
