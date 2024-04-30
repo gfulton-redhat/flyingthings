@@ -48,8 +48,8 @@ spec:
       image: alpine:latest
       script: |
         #!/usr/bin/env sh
-        ls /workspace
-        ls /workspace/source
+        ls -v /workspace
+        ls -v /workspace/source
 ---
 #apiVersion: tekton.dev/v1beta1
 #kind: Pipeline
