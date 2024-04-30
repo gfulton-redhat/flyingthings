@@ -48,7 +48,7 @@ spec:
       image: alpine:latest
       script: |
         #!/usr/bin/env sh
-        cat $(workspaces.source.path)/README.md
+        cat /workspace/output/README.md
 ---
 #apiVersion: tekton.dev/v1beta1
 #kind: Pipeline
